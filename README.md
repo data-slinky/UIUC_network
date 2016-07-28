@@ -1,4 +1,4 @@
-# UIUC Network
+# UIUC Affiliations Network
 A network diagram of the faculty, staff and administrators at the University of Illinois at Urbana-Champaign. Links represent departmental affiliation of the employee. Note, the visualization is only for engineering. The entire dataset is uploaded in case you want to play with it.
 
 ## Data

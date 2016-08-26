@@ -3,10 +3,16 @@
 
 <header>
 	<title>UIUC Affiliation Network</title>
+    <link rel="stylesheet" type="text/css" href="lib/bootstrap.min.css">
+    <script type='text/javascript' src="lib/jquery-ui.min.js"> </script>
+    <script type='text/javascript' src="lib/jquery-ui.css"> </script>
+    <script type="text/javascript" src="lib/select2.min.js"></script>
+    <script type="text/javascript" src="lib/d3.v3.min.js"></script>
+    <script src="//code.jquery.com/jquery-1.11.3.min.js"></script>
 </header>
 
-<style>
 
+<style>
 .link {
   stroke: #e6e600;
   stroke-opacity: 0.7;
@@ -17,7 +23,7 @@
   fill:  #ffaa33;
   stroke: #000;
   stroke-width: 1.5px;
-  fill-opacity: 0.8;
+  fill-opacity: 0.9;
 }
 
 .node text {
@@ -38,100 +44,16 @@
   fill: none;
   pointer-events: all;
 }
-
 </style>
 
 
 <body>
 
-<h3 style="color:#A6A6A6;font-family:helvetica;text-align:center;">UIUC Affiliation Network (Engineering)</h3>
+<h3 style="font-family:helvetica;text-align:center;">UIUC Affiliation Network (Engineering)</h3>
 <p style="font-size:12px;color:#A6A6A6;font-family:helvetica;text-align:center;">Source: 2015-2016 UIUC Gray Book
-<br>Learn how this is made at <a href="http://data-slinky.com/project/2_UIUC_affiliation_network/">data-slinky</a></p>
-
-<script src="//d3js.org/d3.v3.min.js"></script>
-<script>
-
-var color = d3.scale.category10();
-
-var width = 1200,
-    height = 1000
-
-var svg = d3.select("body").append("svg")
-    .attr("width", width)
-    .attr("height", height);
-
-var force = d3.layout.force()
-    .gravity(0.4)
-    .charge(-100)
-    .linkDistance(100)
-    .size([width, height]);
+<br>by <a href="http://data-slinky.com/project/2_UIUC_affiliation_network/">data-slinky</a></p>
 
 
-d3.json("uiucSample.json", function(error, json) {
-  if (error) throw error;
-
-  force
-      .nodes(json.nodes)
-      .links(json.links)
-      .start();
-
-  var link = svg.selectAll(".link")
-      .data(json.links)
-      .enter().append("line")
-      .attr("class", "link");
-
-  var node = svg.selectAll(".node")
-      .data(json.nodes)
-      .enter().append("g")
-      .attr("class", "node")
-      .call(force.drag);
-
-  var circle = node.append("circle")
-      .attr("r", function(d) { return d.value+5; })
-      .style("fill", function (d) { return color(d.group); });
-
-  var label = node.append("text")
-      .attr("dy", ".35em")
-      .attr("fill", "#000")
-      .style("font-weight", "bold")
-      .text(function(d) { return d.name; });
-
-  var cell = node.append("path")
-      .attr("class", "cell");
-
-  node.on('mouseover', function(d) {
-  link.style('stroke', function(l) {
-    if (d === l.source || d === l.target)
-      return '#ff3333';
-    else
-      return '#e6e600';
-    });
-  });
-
-  node.on('mouseout', function() {
-    link.style('stroke', '#e6e600');
-  });
-
-  force.on("tick", function() {
-    cell
-        .data(json.nodes)
-        .attr("d", function(d) { return d.length ? "M" + d.join("L") : null; });
-
-    link
-        .attr("x1", function(d) { return d.source.x; })
-        .attr("y1", function(d) { return d.source.y; })
-        .attr("x2", function(d) { return d.target.x; })
-        .attr("y2", function(d) { return d.target.y; });
-
-    circle
-        .attr("cx", function(d) { return d.x; })
-        .attr("cy", function(d) { return d.y; });
-
-    label
-        .attr("x", function(d) { return d.x + 8; })
-        .attr("y", function(d) { return d.y; });
-  });
-});
-
-</script>
-
+<script type="text/javascript" src="lib/UIUCnetwork.js"></script>
+    
+</body>
